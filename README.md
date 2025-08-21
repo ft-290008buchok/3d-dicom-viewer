@@ -48,12 +48,22 @@ Add VTK_DIR to path
 ```
 %VTK_DIR%\bin
 ```
+<h2>Install MS Visual Studio 2017</h2>
+
+[download VS 2017 Community](https://www.techspot.com/downloads/6278-visual-studio.html)
+
 <h2>Install Qt5</h2>
 
 Preferred qt version **Qt5.12.12**
 
 In Qt5 installer choose msvc 2017 conpiler (not minGW!)
 
+<h2>Deploy</h2>
+
+- Configure project in Qt Creator
+- Select the kit corresponding to msvc 2017
+- Set the build type to Release
+  
 # Test
 For testing, you can use [dicom example](https://github.com/ft-290008buchok/3d-dicom-viewer/tree/main/dicom-example)
 
