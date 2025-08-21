@@ -15,14 +15,45 @@ Main development tools Qt, VTK, C++.
 # Implementation
 The application uses the vtkMarchingCubes surface construction algorithm
 and some simple computational geometry algorithms to generate 3D models of certain organs.
-# Build requirements
+# Build on Windows
+<h2>Build requirements</h2>
+
 - Visual Studio 2017 msvc compiler
+
 - Qt 5
+  
 - VTK 9.3
+  
 - Windows 10 / 11
-# Release
-- [Release msvc 2017](https://drive.google.com/file/d/1CP8jiLco1_gryoz_mbCdJC_O6Jq8JcPM/view?usp=sharing)
-- [VTK binarys msvc 2017](https://drive.google.com/file/d/14xWSCmUyoiDUJTjGzdh0Buf1E0NwSy7R/view?usp=sharing)
+  
+  
+<h2>Preset</h2>
+
+Download [VTK binarys msvc 2017](https://drive.google.com/file/d/14xWSCmUyoiDUJTjGzdh0Buf1E0NwSy7R/view?usp=sharing)
+
+Unpack files to "C:\VTK" folder
+```
+C:\VTK
+|_install
+  |_bin
+  |_include
+  |_lib
+  |_share
+```
+Create system path VTK_DIR
+```
+VTK_DIR = C:\VTK\install
+```
+Add VTK_DIR to path
+```
+%VTK_DIR%\bin
+```
+<h2>Install Qt5</h2>
+
+Preferred qt version **Qt5.12.12**
+
+In Qt5 installer choose msvc 2017 conpiler (not minGW!)
+
 # Test
 For testing, you can use [dicom example](https://github.com/ft-290008buchok/3d-dicom-viewer/tree/main/dicom-example)
 
