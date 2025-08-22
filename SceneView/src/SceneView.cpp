@@ -409,18 +409,7 @@ void SceneView::Impl::Worker::buildLungs()
 
     connect->SetExtractionModeToSpecifiedRegions();
     connect->Update();
-
-    //---------------------------------------------------------
-    // Compare surfaces
-    // 1 largest region without air extraction
-    // 2 main lungs segmentation algorithm with air extraction
-    // If surfaces are simular
-    //     render 1 surface
-    // else
-    //     render 2 surface
-    // Think about region counting and extracting the board
-    //---------------------------------------------------------
-
+    
     auto smoother = vtkSmartPointer<vtkSmoothPolyDataFilter>::New();
     smoother->SetInputData(connect->GetOutput());
     smoother->SetNumberOfIterations(20);
