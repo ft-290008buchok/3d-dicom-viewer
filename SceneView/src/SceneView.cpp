@@ -418,6 +418,7 @@ void SceneView::Impl::Worker::buildLungs()
     //     render 1 surface
     // else
     //     render 2 surface
+    // Think about region counting and extracting the board
     //---------------------------------------------------------
 
     auto smoother = vtkSmartPointer<vtkSmoothPolyDataFilter>::New();
