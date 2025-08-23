@@ -52,7 +52,7 @@ Add VTK_DIR to path
 ```
 <h2>Install MS Visual Studio 2017</h2>
 
-[download VS 2017 Community](https://www.techspot.com/downloads/6278-visual-studio.html)
+[download VS 2017 Community](https://aka.ms/vs/15/release/vs_community.exe)
 
 <h2>Install Qt5</h2>
 
