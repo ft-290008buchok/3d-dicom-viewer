@@ -56,9 +56,7 @@ Add VTK_DIR to path
 
 <h2>Install Qt5</h2>
 
-Preferred qt version **Qt5.12.X**
-
-If you don`t have one you can download [Qt5.12.2 offline installer](https://wldev.ru/data/other/qt/qt-opensource-windows-x86-5.12.2.exe) 
+Preferred qt version **Qt5.12.12**
 
 In Qt5 installer choose msvc 2017 conpiler (not minGW!)
 
