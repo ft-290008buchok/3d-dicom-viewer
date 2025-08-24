@@ -60,7 +60,7 @@ Preferred qt version **Qt5.12.12**
 
 If you don`t have one, you can download [qt5.12.12 offline installer](https://download.qt.io/archive/qt/5.12/5.12.12/)
 
-In Qt5 installer choose msvc 2017 conpiler (not minGW!)
+In Qt5 installer choose msvc 2015 complect (not minGW!)
 
 <h2>Deploy</h2>
 
