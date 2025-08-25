@@ -20,6 +20,8 @@ and some simple computational geometry algorithms to generate 3D models of certa
 # Build on Windows
 <h2>Build requirements</h2>
 
+- Cmake > 3.5
+
 - Visual Studio 2017 msvc compiler
 
 - Qt 5
