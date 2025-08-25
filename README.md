@@ -70,7 +70,7 @@ In Qt5 installer choose msvc 2017 64-bit complect (not minGW!)
 <h2>Deploy</h2>
 
 - Configure project in Qt Creator
-- Select the kit corresponding to msvc 2017
+- Select the kit corresponding to msvc 2017 64-bit
 - Set the build type to Release
   
 # Test
