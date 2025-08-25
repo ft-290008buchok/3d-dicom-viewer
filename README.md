@@ -50,6 +50,11 @@ Add VTK_DIR to path
 ```
 %VTK_DIR%\bin
 ```
+<h2>Install Cmake</h2>
+
+Download and install last version
+
+
 <h2>Install MS Visual Studio 2017</h2>
 
 [download VS 2017 Community](https://aka.ms/vs/15/release/vs_community.exe)
@@ -60,7 +65,7 @@ Preferred qt version **Qt5.12.12**
 
 If you don`t have one, you can download [qt5.12.12 offline installer](https://download.qt.io/archive/qt/5.12/5.12.12/)
 
-In Qt5 installer choose msvc 2015 complect (not minGW!)
+In Qt5 installer choose msvc 2017 64-bit complect (not minGW!)
 
 <h2>Deploy</h2>
 
