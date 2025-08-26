@@ -240,9 +240,10 @@ void SceneView::Impl::buildModel()
 
     switch (m_config.zone)
     {
-    case Lungs: QObject::connect(thread, &QThread::started, worker, &Worker::buildLungs); break;
-    case Bones: QObject::connect(thread, &QThread::started, worker, &Worker::buildBones); break;
-    case Skin : QObject::connect(thread, &QThread::started, worker, &Worker::buildSkin);  break;
+    case Lungs   : QObject::connect(thread, &QThread::started, worker, &Worker::buildLungs); break;
+    case Bones   : QObject::connect(thread, &QThread::started, worker, &Worker::buildBones); break;
+    case Skin    : QObject::connect(thread, &QThread::started, worker, &Worker::buildSkin);  break;
+    case Trachea : QObject::connect(thread, &QThread::started, worker, &Worker::buildTrachea);  break;
     }
 
     QObject::connect(worker, &Worker::finished, thread, &QThread::quit);
@@ -638,7 +639,7 @@ void SceneView::Impl::Worker::buildTrachea()
     m_owner->m_dicomMapper->SetInputConnection(smoother->GetOutputPort());
     m_owner->m_modelPolydata->DeepCopy(smoother->GetOutput());
 
-    emit EventHandler::instance().pushStringToTerminal("Build lungs complete");
+    emit EventHandler::instance().pushStringToTerminal("Build trachea complete");
 
     emit finished();
 }

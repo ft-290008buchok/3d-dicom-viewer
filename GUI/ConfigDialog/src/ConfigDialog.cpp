@@ -26,7 +26,7 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     okButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     QObject::connect(okButton, &QPushButton::clicked, this, &QDialog::accept);
 
-    m_zoneComboBox->addItems({"Lungs", "Bones", "Skin"});
+    m_zoneComboBox->addItems({"Lungs", "Bones", "Skin", "Trachea"});
     QObject::connect(m_zoneComboBox, &QComboBox::currentTextChanged, [this](const QString &text){
             if (text == "Lungs")
                 m_config.zone = SceneView::Lungs;
@@ -34,6 +34,8 @@ ConfigDialog::ConfigDialog(QWidget *parent)
                 m_config.zone = SceneView::Bones;
             if (text == "Skin")
                 m_config.zone = SceneView::Skin;
+            if (text == "Trachea")
+                m_config.zone = SceneView::Trachea;
         });
 
     QObject::connect(m_xSlider, &QSlider::valueChanged, [this] () {
@@ -92,9 +94,10 @@ void ConfigDialog::synchronizeConfig(const SceneView::Config &config, const Scen
 
     switch (m_config.zone)
     {
-    case SceneView::Zone::Lungs: m_zoneComboBox->setCurrentIndex(0); break;
-    case SceneView::Zone::Bones: m_zoneComboBox->setCurrentIndex(1); break;
-    case SceneView::Zone::Skin : m_zoneComboBox->setCurrentIndex(2); break;
+    case SceneView::Zone::Lungs   : m_zoneComboBox->setCurrentIndex(0); break;
+    case SceneView::Zone::Bones   : m_zoneComboBox->setCurrentIndex(1); break;
+    case SceneView::Zone::Skin    : m_zoneComboBox->setCurrentIndex(2); break;
+    case SceneView::Zone::Trachea : m_zoneComboBox->setCurrentIndex(3); break;
     }
 
     if (m_config.xMax <= m_config.xMin || m_config.yMax <= m_config.yMin || m_config.zMax <= m_config.zMin)
