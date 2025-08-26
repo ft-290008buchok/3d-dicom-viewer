@@ -30,8 +30,13 @@ and some simple computational geometry algorithms to generate 3D models of certa
   
 - Windows 10 / 11
   
-  
-<h2>Preset</h2>
+
+<h2>Install Cmake</h2>
+
+Download and install last version
+
+
+<h2>Install VTK</h2>
 
 Download [VTK binarys msvc 2017](https://drive.google.com/file/d/14xWSCmUyoiDUJTjGzdh0Buf1E0NwSy7R/view?usp=sharing)
 
@@ -52,10 +57,6 @@ Add VTK_DIR to path
 ```
 %VTK_DIR%\bin
 ```
-<h2>Install Cmake</h2>
-
-Download and install last version
-
 
 <h2>Install MS Visual Studio 2017</h2>
 
