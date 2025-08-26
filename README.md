@@ -36,7 +36,7 @@ and some simple computational geometry algorithms to generate 3D models of certa
 Download and install last version
 
 
-<h2>Install VTK</h2>
+<h2>Install VTK 9.3</h2>
 
 Download [VTK binarys msvc 2017](https://drive.google.com/file/d/14xWSCmUyoiDUJTjGzdh0Buf1E0NwSy7R/view?usp=sharing)
 
