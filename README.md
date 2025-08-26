@@ -1,7 +1,6 @@
 # dicom-viewer-3D
 
-<img width="795" height="594" alt="image" src="https://github.com/user-attachments/assets/6575e790-7680-48cd-a627-8c1daa34579e" />
-
+<img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/f0fabc9d-477c-4cad-a1f7-a3ee8ae186c3" />
 
 The program is designed for segmentation and creating 3D models of certain organs from DICOM images.
 Main development tools Qt, VTK, C++.
@@ -17,6 +16,11 @@ The program only works with dicom data encoded in HU (Hounsfield units). Preferr
 - Bones
 - Skin
 - Trachea
+<img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/60875811-8ec7-4c61-84fb-654537c74025" />
+ <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/208d3ac7-b37a-4fec-8fcc-9ab2a8b336e0" /> <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/0aecbccb-d85b-4489-ba6a-bcfbc7cb14ab" /> <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/332bf647-b262-4e4b-a951-7b3c91ac2f85" />
+
+
+
 # Implementation
 The application uses the vtkMarchingCubes surface construction algorithm
 and some simple computational geometry algorithms to generate 3D models of certain organs.
