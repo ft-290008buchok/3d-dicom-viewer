@@ -4,7 +4,7 @@
 The program is designed for segmentation and creating 3D models of certain organs from DICOM images.
 Main development tools Qt, VTK, C++.
 
-The program only works with dicom data encoded in HU (Hounsfield units).
+The program only works with dicom data encoded in HU (Hounsfield units). Preferred input data format is raw DICOM series.
 # Functionality
 - Build 3D Model from DICOM
 - Segmentation of certain organs
