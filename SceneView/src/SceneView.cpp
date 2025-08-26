@@ -99,6 +99,7 @@ public slots:
     void buildLungs();
     void buildBones();
     void buildSkin();
+    void buildTrachea();
 
 signals:
     void finished();
@@ -338,68 +339,28 @@ void SceneView::Impl::Worker::buildLungs()
 
     vtkDataArray* scalars = imageData->GetPointData()->GetScalars();
 
-//    for (int z = zMin; z < zMax; ++z) {
-//        for (int y = yMin; y < yMax; ++y) {
-//            for (int x = xMin; x < xMax; ++x) {
-//                int idx = z * xMax * yMax + y * xMax + x;
-//                double value = scalars->GetComponent(idx, 0);
-//                if (value < -990)
-//                    scalars->SetComponent(idx, 0, 1000);
-//            }
-//        }
-//    }
-
-    double previous = -1000;
     for (int z = zMin; z < zMax; ++z) {
         for (int y = yMin; y < yMax; ++y) {
             for (int x = xMin; x < xMax; ++x) {
                 int idx = z * xMax * yMax + y * xMax + x;
                 double value = scalars->GetComponent(idx, 0);
-                if (value < -990 && previous > -350 && z != 0)
-                {
-                    qDebug() << "\n\nvalue";
-                    qDebug() << x << y << z;
-                    emit finished();
-                    return;
-                }
-                previous = value;
+                if (value < -990)
+                    scalars->SetComponent(idx, 0, 1000);
             }
         }
     }
 
-//    imageData->Modified();
+    imageData->Modified();
 
-//    vtkSmartPointer<vtkExtractVOI> extractVOI = vtkSmartPointer<vtkExtractVOI>::New();
-//    extractVOI->SetInputData(imageData);
+    vtkSmartPointer<vtkExtractVOI> extractVOI = vtkSmartPointer<vtkExtractVOI>::New();
+    extractVOI->SetInputData(imageData);
 
-//    extractVOI->SetVOI(xMin, xMax, yMin, yMax, zMin, zMax); // Область интереса: x, y, z (все слои)
-//    extractVOI->SetSampleRate(2, 2, 2);         // Прореживание по оси Z (каждый 2-й слой)
-//    extractVOI->Update();
-
-    vtkImageData* inputImage = reader->GetOutput();
-        int* dims = inputImage->GetDimensions();
-
-        auto seedMask = vtkSmartPointer<vtkImageData>::New();
-        seedMask->SetDimensions(dims);
-        seedMask->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
-
-        unsigned char* seedPtr = static_cast<unsigned char*>(seedMask->GetScalarPointer());
-        std::fill_n(seedPtr, dims[0]*dims[1]*dims[2], 0);
-
-        // Устанавливаем одно семя
-        int idx = seedZ * dims[0] * dims[1] + seedY * dims[0] + seedX;
-        seedPtr[idx] = 1;
-
-        // Создаём фильтр регион-грауинга
-        auto regionGrowing = vtkSmartPointer<vtkImageConnectivityFilter>::New();
-        regionGrowing->SetInputConnection(reader->GetOutputPort());
-        regionGrowing->SetExtractionModeToSeededRegions();
-        regionGrowing->SetSeedData(seedMask);
-        regionGrowing->SetScalarRange(-1000, -300); // например, HU диапазон для лёгких
-        regionGrowing->Update();
+    extractVOI->SetVOI(xMin, xMax, yMin, yMax, zMin, zMax); // Область интереса: x, y, z (все слои)
+    extractVOI->SetSampleRate(2, 2, 2);         // Прореживание по оси Z (каждый 2-й слой)
+    extractVOI->Update();
 
     auto marchingCubes = vtkSmartPointer<vtkMarchingCubes>::New();
-    marchingCubes->SetInputData(imageData);
+    marchingCubes->SetInputData(extractVOI->GetOutput());
     marchingCubes->SetValue(0, -350);
 
     auto isosurfaceProgressCallback = vtkSmartPointer<ProgressCallback>::New();
@@ -408,51 +369,51 @@ void SceneView::Impl::Worker::buildLungs()
     emit EventHandler::instance().surfaceBuildStarted();
     marchingCubes->Update();
 
-//    auto connect = vtkSmartPointer<vtkPolyDataConnectivityFilter>::New();
-//    connect->SetInputData(marchingCubes->GetOutput());
-//    connect->SetExtractionModeToLargestRegion();
-//    connect->Update();
+    auto connect = vtkSmartPointer<vtkPolyDataConnectivityFilter>::New();
+    connect->SetInputData(marchingCubes->GetOutput());
+    connect->SetExtractionModeToLargestRegion();
+    connect->Update();
 
-//    auto sizes = vtkSmartPointer<vtkIdTypeArray>::New();
-//    sizes = connect->GetRegionSizes();
+    auto sizes = vtkSmartPointer<vtkIdTypeArray>::New();
+    sizes = connect->GetRegionSizes();
 
-//    vtkIdType largestRegionId = 0;
-//    vtkIdType maxSize = 0;
-//    for (vtkIdType i = 0; i < sizes->GetNumberOfTuples(); i++) {
-//        int size = sizes->GetValue(i);
-//        if (size > maxSize) {
-//            maxSize = size;
-//            largestRegionId = i;
-//        }
-//    }
+    vtkIdType largestRegionId = 0;
+    vtkIdType maxSize = 0;
+    for (vtkIdType i = 0; i < sizes->GetNumberOfTuples(); i++) {
+        int size = sizes->GetValue(i);
+        if (size > maxSize) {
+            maxSize = size;
+            largestRegionId = i;
+        }
+    }
 
-//    const int minSize = maxSize / 100;
-//    QList<int> selectedRegions;
-//    for (vtkIdType i = 0; i < sizes->GetNumberOfTuples(); i++) {
-//        int size = sizes->GetValue(i);
-//        if (size > minSize)
-//            selectedRegions.append(i);
-//    }
+    const int minSize = maxSize / 100;
+    QList<int> selectedRegions;
+    for (vtkIdType i = 0; i < sizes->GetNumberOfTuples(); i++) {
+        int size = sizes->GetValue(i);
+        if (size > minSize)
+            selectedRegions.append(i);
+    }
 
-//    QList<int> specificRegions;
-//    for (int& id : selectedRegions)
-//        if (id != largestRegionId)
-//        {
-//            connect->AddSpecifiedRegion(id);
-//            specificRegions.append(id);
-//        }
+    QList<int> specificRegions;
+    for (int& id : selectedRegions)
+        if (id != largestRegionId)
+        {
+            connect->AddSpecifiedRegion(id);
+            specificRegions.append(id);
+        }
 
-//    if (specificRegions.size() == 0)
-//    {
-//        emit EventHandler::instance().pushStringToTerminal("Extraction parameters you set appears to not select any data");
-//        emit finished();
-//    }
+    if (specificRegions.size() == 0)
+    {
+        emit EventHandler::instance().pushStringToTerminal("Extraction parameters you set appears to not select any data");
+        emit finished();
+    }
 
-//    connect->SetExtractionModeToSpecifiedRegions();
-//    connect->Update();
+    connect->SetExtractionModeToSpecifiedRegions();
+    connect->Update();
 
     auto smoother = vtkSmartPointer<vtkSmoothPolyDataFilter>::New();
-    smoother->SetInputData(marchingCubes->GetOutput());
+    smoother->SetInputData(connect->GetOutput());
     smoother->SetNumberOfIterations(20);
 
     auto smoothProgressCallback = vtkSmartPointer<ProgressCallback>::New();
@@ -564,6 +525,120 @@ void SceneView::Impl::Worker::buildSkin()
     m_owner->m_modelPolydata->DeepCopy(smoother->GetOutput());
 
     emit EventHandler::instance().pushStringToTerminal("Build skin complete");
+
+    emit finished();
+}
+
+void SceneView::Impl::Worker::buildTrachea()
+{
+    vtkSmartPointer<vtkImageData> imageData = vtkSmartPointer<vtkImageData>::New();
+    imageData->DeepCopy(m_owner->m_dicomReader->GetOutput());
+
+    const int dimX = m_owner->m_dimmensions.x;
+    const int dimY = m_owner->m_dimmensions.y;
+    const int dimZ = m_owner->m_dimmensions.z;
+
+    double xCenter = dimX / 2;
+    double yCenter = dimY / 2;
+
+    vtkDataArray* scalars = imageData->GetPointData()->GetScalars();
+
+    for (int z = 0; z < dimZ; ++z) {
+        for (int y = 0; y < dimY; ++y) {
+            for (int x = 0; x < dimX; ++x) {
+                int idx = z * dimX * dimY + y * dimX + x;
+                double value = scalars->GetComponent(idx, 0);
+                if (value < -990
+                        && abs(xCenter - x) > 70
+                        && abs(yCenter - y) > 70)
+                    scalars->SetComponent(idx, 0, 1000);
+            }
+        }
+    }
+
+    imageData->Modified();
+
+    const int xMin = m_owner->m_config.xMin;
+    const int yMin = m_owner->m_config.yMin;
+    const int zMin = m_owner->m_config.zMin;
+    const int xMax = m_owner->m_config.xMax;
+    const int yMax = m_owner->m_config.yMax;
+    const int zMax = m_owner->m_config.zMax;
+
+    vtkSmartPointer<vtkExtractVOI> extractVOI = vtkSmartPointer<vtkExtractVOI>::New();
+    extractVOI->SetInputData(imageData);
+
+    extractVOI->SetVOI(xMin, xMax, yMin, yMax, zMin, zMax); // Область интереса: x, y, z (все слои)
+    extractVOI->SetSampleRate(2, 2, 2);         // Прореживание по оси Z (каждый 2-й слой)
+    extractVOI->Update();
+
+    auto marchingCubes = vtkSmartPointer<vtkMarchingCubes>::New();
+    marchingCubes->SetInputData(extractVOI->GetOutput());
+    marchingCubes->SetValue(0, -350);
+
+    auto isosurfaceProgressCallback = vtkSmartPointer<ProgressCallback>::New();
+    marchingCubes->AddObserver(vtkCommand::ProgressEvent, isosurfaceProgressCallback);
+
+    emit EventHandler::instance().surfaceBuildStarted();
+    marchingCubes->Update();
+
+    auto connect = vtkSmartPointer<vtkPolyDataConnectivityFilter>::New();
+    connect->SetInputData(marchingCubes->GetOutput());
+    connect->SetExtractionModeToLargestRegion();
+    connect->Update();
+
+    auto sizes = vtkSmartPointer<vtkIdTypeArray>::New();
+    sizes = connect->GetRegionSizes();
+
+    vtkIdType largestRegionId = 0;
+    vtkIdType maxSize = 0;
+    for (vtkIdType i = 0; i < sizes->GetNumberOfTuples(); i++) {
+        int size = sizes->GetValue(i);
+        if (size > maxSize) {
+            maxSize = size;
+            largestRegionId = i;
+        }
+    }
+
+    const int minSize = maxSize / 100;
+    QList<int> selectedRegions;
+    for (vtkIdType i = 0; i < sizes->GetNumberOfTuples(); i++) {
+        int size = sizes->GetValue(i);
+        if (size > minSize)
+            selectedRegions.append(i);
+    }
+
+    QList<int> specificRegions;
+    for (int& id : selectedRegions)
+        if (id != largestRegionId)
+        {
+            connect->AddSpecifiedRegion(id);
+            specificRegions.append(id);
+        }
+
+    if (specificRegions.size() == 0)
+    {
+        emit EventHandler::instance().pushStringToTerminal("Extraction parameters you set appears to not select any data");
+        emit finished();
+    }
+
+    connect->SetExtractionModeToSpecifiedRegions();
+    connect->Update();
+
+    auto smoother = vtkSmartPointer<vtkSmoothPolyDataFilter>::New();
+    smoother->SetInputData(connect->GetOutput());
+    smoother->SetNumberOfIterations(20);
+
+    auto smoothProgressCallback = vtkSmartPointer<ProgressCallback>::New();
+    smoother->AddObserver(vtkCommand::ProgressEvent, smoothProgressCallback);
+
+    emit EventHandler::instance().smoothingSurfaceStarted();
+    smoother->Update();
+
+    m_owner->m_dicomMapper->SetInputConnection(smoother->GetOutputPort());
+    m_owner->m_modelPolydata->DeepCopy(smoother->GetOutput());
+
+    emit EventHandler::instance().pushStringToTerminal("Build lungs complete");
 
     emit finished();
 }
