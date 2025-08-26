@@ -10,7 +10,7 @@ The program only works with dicom data encoded in HU (Hounsfield units).
 - Segmentation of certain organs
 - Set volume extraction parameters for model
 - Save 3D model to stl
-# Model types
+# Options
 - Lungs
 - Bones
 - Skin
