@@ -14,6 +14,7 @@ The program only works with dicom data encoded in HU (Hounsfield units). Preferr
 - Lungs
 - Bones
 - Skin
+- Trachea
 # Implementation
 The application uses the vtkMarchingCubes surface construction algorithm
 and some simple computational geometry algorithms to generate 3D models of certain organs.

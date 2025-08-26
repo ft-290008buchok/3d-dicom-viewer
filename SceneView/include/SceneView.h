@@ -15,7 +15,8 @@ public:
     {
         Lungs,
         Bones,
-        Skin
+        Skin,
+        Trachea
     };
 
     struct Config
