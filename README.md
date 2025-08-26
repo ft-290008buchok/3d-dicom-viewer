@@ -1,6 +1,8 @@
 # dicom-viewer-3D
 
-<img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/f0fabc9d-477c-4cad-a1f7-a3ee8ae186c3" />
+<p align="center">
+  <img width="400" height="300" alt="image" src="https://github.com/user-attachments/assets/f0fabc9d-477c-4cad-a1f7-a3ee8ae186c3" />
+</p>
 
 The program is designed for segmentation and creating 3D models of certain organs from DICOM images.
 Main development tools Qt, VTK, C++.
