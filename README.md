@@ -4,21 +4,24 @@
 The program is designed for segmentation and creating 3D models of certain organs from DICOM images.
 Main development tools Qt, VTK, C++.
 
-The program only works with dicom data encoded in HU (Hounsfield units).
+The program only works with dicom data encoded in HU (Hounsfield units). Preferred input data format is raw DICOM series.
 # Functionality
 - Build 3D Model from DICOM
 - Segmentation of certain organs
 - Set volume extraction parameters for model
 - Save 3D model to stl
-# Model types
+# Options
 - Lungs
 - Bones
 - Skin
+- Trachea
 # Implementation
 The application uses the vtkMarchingCubes surface construction algorithm
 and some simple computational geometry algorithms to generate 3D models of certain organs.
 # Build on Windows
 <h2>Build requirements</h2>
+
+- Cmake > 3.5
 
 - Visual Studio 2017 msvc compiler
 
@@ -28,8 +31,13 @@ and some simple computational geometry algorithms to generate 3D models of certa
   
 - Windows 10 / 11
   
-  
-<h2>Preset</h2>
+
+<h2>Install Cmake</h2>
+
+Download and install last version
+
+
+<h2>Install VTK 9.3</h2>
 
 Download [VTK binarys msvc 2017](https://drive.google.com/file/d/14xWSCmUyoiDUJTjGzdh0Buf1E0NwSy7R/view?usp=sharing)
 
@@ -50,6 +58,7 @@ Add VTK_DIR to path
 ```
 %VTK_DIR%\bin
 ```
+
 <h2>Install MS Visual Studio 2017</h2>
 
 [download VS 2017 Community](https://aka.ms/vs/15/release/vs_community.exe)
@@ -60,12 +69,12 @@ Preferred qt version **Qt5.12.12**
 
 If you don`t have one, you can download [qt5.12.12 offline installer](https://download.qt.io/archive/qt/5.12/5.12.12/)
 
-In Qt5 installer choose msvc 2015 complect (not minGW!)
+In Qt5 installer choose msvc 2017 64-bit complect (not minGW!)
 
 <h2>Deploy</h2>
 
 - Configure project in Qt Creator
-- Select the kit corresponding to msvc 2017
+- Select the kit corresponding to msvc 2017 64-bit
 - Set the build type to Release
   
 # Test
