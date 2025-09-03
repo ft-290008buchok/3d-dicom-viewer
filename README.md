@@ -88,3 +88,5 @@ In Qt5 installer choose msvc 2017 64-bit complect (not minGW!)
 # Test
 For testing, you can use [dicom example](https://github.com/ft-290008buchok/3d-dicom-viewer/tree/main/dicom-example)
 
+For more dicom images open LCTSC_v2_20190508.tcia file in [dicom example](https://github.com/ft-290008buchok/3d-dicom-viewer/tree/main/dicom-example) via [NBIA Data Retriever](https://wiki.cancerimagingarchive.net/display/NBIA/Downloading+TCIA+Images#DownloadingTCIAImages-DownloadingtheNBIADataRetriever) and download LCTSC dataset
+
