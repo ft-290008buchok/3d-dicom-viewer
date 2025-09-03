@@ -85,6 +85,12 @@ In Qt5 installer choose msvc 2017 64-bit complect (not minGW!)
 - Select the kit corresponding to msvc 2017 64-bit
 - Set the build type to Release
   
-# Test
+# Usage
+- Run the program
+- File -> New file -> choose the directory with DICOM series you opens
+- In 'Set parameters' menu you can choose the option type (lungs, bones, skin, trachea) and volume extraction on each axis
+- Press 'Build model'
+- Export > stl
+  
 For testing, you can use [dicom example](https://github.com/ft-290008buchok/3d-dicom-viewer/tree/main/dicom-example)
 
